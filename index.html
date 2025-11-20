@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-BORDER KOZA RENEWAL OPEN PARTY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* カスタムフォント設定 */
+        body {
+            font-family: 'Montserrat', 'Noto Sans JP', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* 背景画像エリア */
+        #bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            
+            /* * ★★★ 画像設定のポイント ★★★
+             * 今はプレビュー用にネット上の画像を仮設定しています。
+             * お手元の画像を反映させるには、このファイルをダウンロードした後、
+             * 下の行を url('IMG_6493.jpg') に書き換えてください。
+             */
+            background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2070&auto=format&fit=crop'); 
+            
+            background-size: cover;
+            background-position: center;
+            /* アニメーション適用：ゆっくり拡大・移動 */
+            animation: floatingBg 30s ease-in-out infinite alternate;
+        }
+
+        /* 背景がゆっくり動くアニメーション */
+        @keyframes floatingBg {
+            0% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1.25) translate(-2%, -2%);
+            }
+        }
+
+        /* オーバーレイ */
+        #bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* カードのスタイル */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        /* * テキストの「越境・混ざり合い」グラデーションアニメーション
+         * 青、オレンジ、黒、白の4色
+         */
+        .shimmer-text {
+            background: linear-gradient(
+                to right,
+                #2563eb 0%,   /* Blue */
+                #f97316 25%,  /* Orange */
+                #000000 50%,  /* Black */
+                #ffffff 75%   /* White */
+            );
+            background-size: 200% auto;
+            color: #fff; /* fallback color */
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 5s linear infinite;
+        }
+        
+        /* 2行目は少しタイミングをずらして、色が追いかけっこするようにする */
+        .shimmer-text-delayed {
+            animation-delay: -2.5s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        /* ボタン */
+        .btn-rsvp {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-rsvp:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .btn-rsvp::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-rsvp:hover::after {
+            left: 100%;
+        }
+
+        /* リンク */
+        .sub-link {
+            position: relative;
+            color: #a0a0a0;
+            transition: color 0.3s;
+        }
+        .sub-link:hover {
+            color: #ffffff;
+        }
+        .sub-link::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #2563eb, #f97316);
+            transition: width 0.3s ease;
+        }
+        .sub-link:hover::before {
+            width: 100%;
+        }
+
+        /* ロゴ */
+        .okano-logo {
+            filter: invert(1) brightness(2);
+            max-width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* アニメーション遅延 */
+        .delay-100 { animation-delay: 0.4s; }
+        .delay-200 { animation-delay: 0.6s; }
+        .delay-300 { animation-delay: 0.8s; }
+        .delay-400 { animation-delay: 1.0s; }
+        .delay-500 { animation-delay: 1.2s; }
+
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- 背景画像とオーバーレイ -->
+    <div id="bg-image"></div>
+    <div id="bg-overlay"></div>
+
+    <!-- メインカード: paddingをスマホ用に調整 (p-6 sm:p-12) -->
+    <main class="glass-card w-full max-w-md rounded-3xl p-6 sm:p-12 text-center relative z-10 border border-white/10">
+        
+        <div class="fade-in-element delay-100 mb-8">
+            <div class="relative inline-block max-w-full">
+                <!-- キャッチコピー: whitespace-nowrapを削除し、文字サイズを調整 -->
+                <p class="text-xs sm:text-base tracking-wider text-gray-300 font-light break-words">
+                    ― 越境と共創が、再び動き出す。―
+                </p>
+            </div>
+        </div>
+
+        <div class="fade-in-element delay-200 py-4 mb-6">
+            <h2 class="font-bold leading-tight">
+                <!-- タイトル: 文字サイズをスマホ用に微調整し、break-wordsを追加 -->
+                <span class="block text-2xl sm:text-4xl mb-2 shimmer-text tracking-tight break-words">X-BORDER KOZA</span>
+                <span class="block text-lg sm:text-2xl tracking-widest shimmer-text shimmer-text-delayed mt-3 break-words">RENEWAL OPEN PARTY</span>
+            </h2>
+        </div>
+
+        <div class="fade-in-element delay-300 mb-10 space-y-2">
+            <p class="text-xl sm:text-2xl font-bold tracking-wide text-white">2025/12/5 (金)</p>
+            <p class="text-lg sm:text-xl font-medium tracking-wide text-gray-200">
+                17:00 - 20:30
+            </p>
+            <p class="text-xs sm:text-sm text-gray-400 font-light tracking-wider pt-1">
+                ( OPEN 17:00~ / START 17:30 )
+            </p>
+        </div>
+
+        <div class="fade-in-element delay-400 space-y-5">
+            <a href="#" class="btn-rsvp block w-full py-3 px-6 border-2 border-white rounded-xl text-lg font-bold tracking-widest uppercase no-underline text-white">
+                参加
+            </a>
+
+            <div class="flex flex-col gap-3 text-sm font-medium tracking-widest fade-in-element delay-500">
+                <a href="#" class="sub-link inline-block py-1">ACCESS</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
